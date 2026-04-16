@@ -4,12 +4,38 @@ import { useEffect, useState } from "react";
 
 export default function Home() {
   const [products, setProducts] = useState<any[]>([]);
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState("");
 
-  useEffect(() => {
+  const fetchProducts = () => {
     fetch("/api/posts")
       .then((res) => res.json())
       .then((data) => setProducts(data));
+  };
+
+  useEffect(() => {
+    fetchProducts();
   }, []);
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+
+    await fetch("/api/posts", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name,
+        price: parseFloat(price),
+        image: "",
+      }),
+    });
+
+    setName("");
+    setPrice("");
+    fetchProducts();
+  };
 
   return (
     <div style={{ padding: "20px" }}>
@@ -17,10 +43,28 @@ export default function Home() {
         BizMarket 🌍
       </h1>
 
-      <p style={{ color: "gray", marginBottom: "20px" }}>
-        Global Marketplace
-      </p>
+      {/* CREATE PRODUCT FORM */}
+      <form onSubmit={handleSubmit} style={{ marginBottom: "20px" }}>
+        <input
+          placeholder="Product name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          style={{ padding: "10px", marginRight: "10px" }}
+          required
+        />
+        <input
+          placeholder="Price"
+          value={price}
+          onChange={(e) => setPrice(e.target.value)}
+          style={{ padding: "10px", marginRight: "10px" }}
+          required
+        />
+        <button type="submit" style={{ padding: "10px" }}>
+          Add Product
+        </button>
+      </form>
 
+      {/* PRODUCTS LIST */}
       {products.length === 0 ? (
         <p>No products yet...</p>
       ) : (
