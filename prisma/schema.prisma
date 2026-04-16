@@ -18,3 +18,12 @@ model Post {
   title   String
   content String
 }
+
+model Product {
+  id    String  @id @default(cuid())
+  name  String
+  price Float
+  image String
+}
+
+
