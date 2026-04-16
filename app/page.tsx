@@ -38,51 +38,70 @@ export default function Home() {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1 style={{ fontSize: "30px", fontWeight: "bold" }}>
-        BizMarket 🌍
+    <div style={{ padding: "20px", fontFamily: "Arial" }}>
+      {/* HEADER */}
+      <h1 style={{ fontSize: "32px", fontWeight: "bold", marginBottom: "10px" }}>
+        🛒 BizMarket
       </h1>
+      <p style={{ color: "gray", marginBottom: "30px" }}>
+        Buy & Sell Globally
+      </p>
 
-      {/* CREATE PRODUCT FORM */}
-      <form onSubmit={handleSubmit} style={{ marginBottom: "20px" }}>
+      {/* FORM */}
+      <form onSubmit={handleSubmit} style={{ marginBottom: "30px" }}>
         <input
           placeholder="Product name"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          style={{ padding: "10px", marginRight: "10px" }}
+          style={{ padding: "12px", marginRight: "10px", borderRadius: "8px" }}
           required
         />
         <input
           placeholder="Price"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
-          style={{ padding: "10px", marginRight: "10px" }}
+          style={{ padding: "12px", marginRight: "10px", borderRadius: "8px" }}
           required
         />
-        <button type="submit" style={{ padding: "10px" }}>
+        <button
+          type="submit"
+          style={{
+            padding: "12px 16px",
+            background: "#f4c542",
+            border: "none",
+            borderRadius: "8px",
+            fontWeight: "bold",
+          }}
+        >
           Add Product
         </button>
       </form>
 
-      {/* PRODUCTS LIST */}
-      {products.length === 0 ? (
-        <p>No products yet...</p>
-      ) : (
-        products.map((product) => (
+      {/* GRID */}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
+          gap: "20px",
+        }}
+      >
+        {products.map((product) => (
           <div
             key={product.id}
             style={{
-              border: "1px solid #ccc",
+              border: "1px solid #eee",
               padding: "15px",
-              marginBottom: "10px",
-              borderRadius: "10px",
+              borderRadius: "12px",
+              boxShadow: "0 4px 10px rgba(0,0,0,0.05)",
             }}
           >
-            <h2>{product.name}</h2>
-            <p>${product.price}</p>
+            <h3 style={{ fontSize: "18px" }}>{product.name}</h3>
+            <p style={{ fontWeight: "bold", marginTop: "10px" }}>
+              ${product.price}
+            </p>
           </div>
-        ))
-      )}
+        ))}
+      </div>
     </div>
   );
 }
