@@ -1,36 +1,27 @@
-'use client';
+
+"use client";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+  const [products, setProducts] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetch("/api/products")
+      .then(res => res.json())
+      .then(setProducts);
+  }, []);
+
   return (
-    <div style={{
-      minHeight: "100vh",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      flexDirection: "column"
-    }}>
-      <h1 style={{ fontSize: "40px", fontWeight: "bold" }}>
-        Welcome to BizMarket 🌍
-      </h1>
+    <div>
+      <h1>BizMarket</h1>
 
-      <p style={{ marginTop: "10px", color: "#aaa" }}>
-        Your global marketplace is coming alive
-      </p>
-
-      <a
-        href="/login"
-        style={{
-          marginTop: "20px",
-          padding: "12px 20px",
-          background: "#f4c542",
-          color: "black",
-          borderRadius: "10px",
-          textDecoration: "none",
-          fontWeight: "bold"
-        }}
-      >
-        Get Started
-      </a>
+      {products.map((p) => (
+        <div key={p.id}>
+          <h2>{p.title}</h2>
+          <p>{p.description}</p>
+          <p>${p.price}</p>
+        </div>
+      ))}
     </div>
   );
 }
