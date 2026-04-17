@@ -25,5 +25,12 @@ model Product {
   price Float
   image String
 }
+generator client {
+  provider = "prisma-client-js"
+}
 
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
 
