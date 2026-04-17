@@ -17,3 +17,6 @@
     "next-auth": "^4.24.0"
   }
 }
+"scripts": {
+  "build": "prisma generate && next build"
+}
