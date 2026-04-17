@@ -10,7 +10,17 @@ export async function GET() {
 export async function POST(req: Request) {
   const body = await req.json();
 
-  const post = await prisma.post.create({
+  import { PrismaClient } from "@prisma/client";
+
+const globalForPrisma = globalThis as unknown as {
+  prisma: PrismaClient | undefined;
+};
+
+export const prisma =
+  globalForPrisma.prisma ??
+  new PrismaClient();
+
+if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
     data: {
       name: body.name,
       price: body.price,
