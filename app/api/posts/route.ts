@@ -1,24 +1,22 @@
+import { PrismaClient } from "@prisma/client";
 
-import { NextResponse } from "next/server";
-import prisma from "@/lib/prisma";
+const prisma = new PrismaClient();
 
-// GET all products
 export async function GET() {
-  const products = await prisma.product.findMany();
-  return NextResponse.json(products);
+  const posts = await prisma.post.findMany();
+  return Response.json(posts);
 }
 
-// CREATE a product
 export async function POST(req: Request) {
   const body = await req.json();
 
-  const product = await prisma.product.create({
+  const post = await prisma.post.create({
     data: {
       name: body.name,
       price: body.price,
-      image: body.image,
+      image: body.image || "",
     },
   });
 
-  return NextResponse.json(product);
+  return Response.json(post);
 }
